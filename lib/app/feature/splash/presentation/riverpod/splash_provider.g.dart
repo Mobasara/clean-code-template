@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_notifier.dart';
+part of 'splash_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -9,51 +9,51 @@ part of 'auth_notifier.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(Auth)
-const authProvider = AuthProvider._();
+@ProviderFor(Splash)
+const splashProvider = SplashProvider._();
 
-final class AuthProvider extends $NotifierProvider<Auth, AuthState> {
-  const AuthProvider._()
+final class SplashProvider extends $NotifierProvider<Splash, bool> {
+  const SplashProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authProvider',
+        name: r'splashProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$authHash();
+  String debugGetCreateSourceHash() => _$splashHash();
 
   @$internal
   @override
-  Auth create() => Auth();
+  Splash create() => Splash();
 
   /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthState value) {
+  Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,
-      providerOverride: $SyncValueProvider<AuthState>(value),
+      providerOverride: $SyncValueProvider<bool>(value),
     );
   }
 }
 
-String _$authHash() => r'421641142e425342f04b8bf0cf711d8bcbd19fb8';
+String _$splashHash() => r'5ef62c5ccfe3f88afaf7fa85c4449ba930372d08';
 
-abstract class _$Auth extends $Notifier<AuthState> {
-  AuthState build();
+abstract class _$Splash extends $Notifier<bool> {
+  bool build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AuthState, AuthState>;
+    final ref = this.ref as $Ref<bool, bool>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AuthState, AuthState>,
-              AuthState,
+              AnyNotifier<bool, bool>,
+              bool,
               Object?,
               Object?
             >;

@@ -2,6 +2,8 @@ import 'package:clean_code_template/app/feature/authentication/domain/use_case/l
 import 'package:clean_code_template/di.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../../core/utils/results.dart';
+import '../../domain/entity/user.dart';
 import '../../domain/repository/authentication_repository.dart';
 import 'auth_state.dart';
 
@@ -9,24 +11,32 @@ part 'auth_notifier.g.dart';
 
 @riverpod
 class Auth extends _$Auth {
-  // Don't define constructor
   final AuthRepository repository = serviceLocator<AuthRepository>();
 
   @override
   AuthState build() {
-    return const AuthState.initial();
+    return const AuthInitial();
   }
 
+  var isLoading = false;
+
   Future<void> login({required String email, required String password}) async {
-    state = const AuthState.loading();
+    isLoading = true;
 
     final loginUser = LoginUser(repository);
-    final result = await loginUser(email: email, password: password);
+    final Result<UserEntity> result = await loginUser(
+      email: email,
+      password: password,
+    );
 
-    if (result.isSuccess && result.data != null) {
-      state = AuthState.authenticated(result.data!);
-    } else {
-      state = AuthState.error(result.failure?.message ?? "Login failed");
-    }
+    isLoading = false;
+    result.fold(
+      onSuccess: (user) {
+        state = AuthAuthenticated(user);
+      },
+      onError: (failure) {
+        state = AuthError(failure.message);
+      },
+    );
   }
 }

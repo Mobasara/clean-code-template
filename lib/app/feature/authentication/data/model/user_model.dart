@@ -28,4 +28,13 @@ class UserModel extends UserEntity {
       'is_email_verified': isEmailVerified,
     };
   }
+
+  UserEntity toEntity() {
+    return UserEntity(
+      id: id,
+      name: name,
+      email: email,
+      isEmailVerified: isEmailVerified,
+    );
+  }
 }
