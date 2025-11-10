@@ -5,7 +5,6 @@ import '../riverpod/auth_notifier.dart';
 import '../riverpod/auth_state.dart';
 
 
-
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -38,9 +37,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
 
-    // Listen to auth state changes
     ref.listen<AuthState>(authProvider, (previous, next) {
-      next.maybeWhen(
+      next.(
         authenticated: (user) {
           Navigator.pushReplacementNamed(context, '/home');
         },
