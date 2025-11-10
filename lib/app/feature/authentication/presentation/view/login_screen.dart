@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../riverpod/auth_notifier.dart';
-import '../riverpod/auth_state.dart';
-
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -26,7 +24,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
-      ref.read(authProvider.notifier).login(
+      ref
+          .read(authProvider.notifier)
+          .login(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
@@ -35,37 +35,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
-
-    ref.listen<AuthState>(authProvider, (previous, next) {
-      next.(
-        authenticated: (user) {
-          Navigator.pushReplacementNamed(context, '/home');
-        },
-        error: (message) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(message),
-              backgroundColor: Colors.red,
-            ),
-          );
-        },
-        orElse: () {},
-      );
-    });
+    final authNotifier = ref.watch(authProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
-      body: authState.(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        orElse: () => _buildLoginForm(),
+      body: Stack(
+        children: [
+          _buildLoginForm(),
+          if (authNotifier.isLoading)
+            const Center(child: CircularProgressIndicator()),
+        ],
       ),
     );
   }
 
   Widget _buildLoginForm() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24),
       child: Form(
         key: _formKey,
         child: Column(
@@ -88,12 +74,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (value == null || value.isEmpty)
                   return 'Please enter your email';
-                }
-                if (!value.contains('@')) {
-                  return 'Please enter a valid email';
-                }
+                if (!value.contains('@')) return 'Please enter a valid email';
                 return null;
               },
             ),
@@ -107,12 +90,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 border: OutlineInputBorder(),
               ),
               validator: (value) {
-                if (value == null || value.isEmpty) {
+                if (value == null || value.isEmpty)
                   return 'Please enter your password';
-                }
-                if (value.length < 6) {
+                if (value.length < 6)
                   return 'Password must be at least 6 characters';
-                }
                 return null;
               },
             ),
@@ -120,9 +101,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/forgot-password');
-                },
+                onPressed: () =>
+                    Navigator.pushNamed(context, '/forgot-password'),
                 child: const Text('Forgot Password?'),
               ),
             ),
@@ -132,10 +112,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text(
-                'Login',
-                style: TextStyle(fontSize: 16),
-              ),
+              child: const Text('Login', style: TextStyle(fontSize: 16)),
             ),
             const SizedBox(height: 16),
             Row(
@@ -143,9 +120,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               children: [
                 const Text("Don't have an account? "),
                 TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/register');
-                  },
+                  onPressed: () => Navigator.pushNamed(context, '/register'),
                   child: const Text('Sign Up'),
                 ),
               ],

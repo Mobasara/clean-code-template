@@ -1,6 +1,21 @@
 abstract class BaseClient {
-  Future<dynamic> getApi({url, data, required context});
-  Future<dynamic> postApi({url, data, required context});
-  Future<dynamic> updateApi({url, data, required context});
-  Future<dynamic> deleteApi({url, required context});
+  Future<dynamic> getApi({
+    required String url,
+    Map<String, dynamic>? data,
+    required dynamic context,
+  });
+
+  Future<dynamic> postApi({
+    required String url,
+    dynamic data,
+    required dynamic context,
+  });
+
+  Future<dynamic> updateApi({
+    required String url,
+    dynamic data,
+    required dynamic context,
+  });
+
+  Future<dynamic> deleteApi({required String url, required dynamic context});
 }

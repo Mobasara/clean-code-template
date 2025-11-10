@@ -1,39 +1,84 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../error/exceptions.dart';
 import '../../utils/constants.dart';
+
+final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
+  throw UnimplementedError();
+});
+
+final localDataProvider = Provider<LocalData>((ref) {
+  final pref = ref.watch(sharedPreferencesProvider);
+  return LocalData(pref);
+});
 
 class LocalData {
   final SharedPreferences _pref;
   LocalData(this._pref);
 
-  String getAccessToken() => _pref.getString(AppConstants.accessTokenKey) ?? '';
-  Future<void> setAccessToken(String token) async => _pref.setString(AppConstants.accessTokenKey, token);
+  /// Generic helper to safely write async values
+  Future<void> _safeWrite(Future<void> Function() action) async {
+    try {
+      await action();
+    } catch (e) {
+      // Optionally log stacktrace
+      // print('Cache write failed: $e\n$st');
+      throw CacheException(message: 'Failed to save data locally: $e');
+    }
+  }
+
+  /// Generic helper to safely read values
+  T _safeRead<T>(T? Function() getter, T defaultValue) {
+    try {
+      return getter() ?? defaultValue;
+    } catch (e) {
+      // print('Cache read failed: $e\n$st');
+      throw CacheException(message: 'Failed to read data locally: $e');
+    }
+  }
+
+  // Token
+  String getAccessToken() =>
+      _safeRead(() => _pref.getString(AppConstants.accessTokenKey), '');
+
+  Future<void> setAccessToken(String token) async =>
+      _safeWrite(() => _pref.setString(AppConstants.accessTokenKey, token));
 
   // Login status
+  bool getLoginStatus() =>
+      _safeRead(() => _pref.getBool(AppConstants.isLoggedInKey), false);
+
   Future<void> setLoginStatus(bool loginStatus) async =>
-      await _pref.setBool(AppConstants.isLoggedInKey, loginStatus);
-  bool getLoginStatus() => _pref.getBool(AppConstants.isLoggedInKey) ?? false;
-
-
-  // Refresh token
-  Future<void> setRefreshToken(String token) async =>
-      await _pref.setString(AppConstants.refreshTokenKey, token);
-  String getRefreshToken() =>
-      _pref.getString(AppConstants.refreshTokenKey) ?? '';
+      _safeWrite(() => _pref.setBool(AppConstants.isLoggedInKey, loginStatus));
 
   // Theme mode
+  String getThemeMode() =>
+      _safeRead(() => _pref.getString(AppConstants.themeKey), 'system');
+
   Future<void> setThemeMode(String themeMode) async =>
-      await _pref.setString(AppConstants.themeKey, themeMode);
-  String getThemeMode() => _pref.getString(AppConstants.themeKey) ?? 'system';
+      _safeWrite(() => _pref.setString(AppConstants.themeKey, themeMode));
 
   // Language
+  String getLanguage() =>
+      _safeRead(() => _pref.getString(AppConstants.languageKey), 'en');
+
   Future<void> setLanguage(String language) async =>
-      await _pref.setString(AppConstants.languageKey, language);
-  String getLanguage() => _pref.getString(AppConstants.languageKey) ?? 'en';
+      _safeWrite(() => _pref.setString(AppConstants.languageKey, language));
 
   // Onboarding
-  Future<void> setOnboardingComplete(bool isComplete) async =>
-      await _pref.setBool(AppConstants.onboardingKey, isComplete);
   bool getOnboardingComplete() =>
-      _pref.getBool(AppConstants.onboardingKey) ?? false;
+      _safeRead(() => _pref.getBool(AppConstants.onboardingKey), false);
+
+  Future<void> setOnboardingComplete(bool isComplete) async =>
+      _safeWrite(() => _pref.setBool(AppConstants.onboardingKey, isComplete));
+
+  // Clear all cached data
+  Future<void> clearAll() async {
+    try {
+      await _pref.clear();
+    } catch (e) {
+      throw CacheException(message: 'Failed to clear local data: $e');
+    }
+  }
 }

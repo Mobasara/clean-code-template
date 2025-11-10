@@ -1,28 +1,34 @@
 import '../../domain/entity/user.dart';
+import 'package:equatable/equatable.dart';
 
-enum AuthStatus {
-  initial,
-  loading,
-  authenticated,
-  unauthenticated,
-  error,
-  forgotPasswordSuccess,
+
+abstract class AuthState extends Equatable {
+  const AuthState();
+
+  @override
+  List<Object?> get props => [];
 }
 
-class AuthState {
-  final AuthStatus status;
-  final UserEntity? user;
-  final String? message;
+class AuthInitial extends AuthState {
+  const AuthInitial();
+}
 
-  const AuthState({required this.status, this.user, this.message});
+class AuthLoading extends AuthState {
+  const AuthLoading();
+}
 
-  const AuthState.initial() : this(status: AuthStatus.initial);
-  const AuthState.loading() : this(status: AuthStatus.loading);
-  const AuthState.authenticated(UserEntity user)
-    : this(status: AuthStatus.authenticated, user: user);
-  const AuthState.unauthenticated() : this(status: AuthStatus.unauthenticated);
-  const AuthState.error(String message)
-    : this(status: AuthStatus.error, message: message);
-  const AuthState.forgotPasswordSuccess(String message)
-    : this(status: AuthStatus.forgotPasswordSuccess, message: message);
+class AuthAuthenticated extends AuthState {
+  final UserEntity user;
+  const AuthAuthenticated(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class AuthError extends AuthState {
+  final String message;
+  const AuthError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }
