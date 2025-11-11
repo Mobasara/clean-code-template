@@ -1,17 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../error/exceptions.dart';
 import '../../utils/constants.dart';
-
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
-
-final localDataProvider = Provider<LocalData>((ref) {
-  final pref = ref.watch(sharedPreferencesProvider);
-  return LocalData(pref);
-});
 
 class LocalData {
   final SharedPreferences _pref;

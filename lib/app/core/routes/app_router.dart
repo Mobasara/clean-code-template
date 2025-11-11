@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../feature/onBoard/presentation/views/on_board_screen.dart';
-import '../../feature/shared/provider/onboarding_provider.dart';
+// import '../../feature/shared/provider/onboarding_provider.dart';
 import '../../feature/splash/presentation/views/splash_screen.dart';
 import 'route_names.dart';
 
@@ -12,7 +12,7 @@ part 'app_router.g.dart';
 
 @riverpod
 GoRouter goRouter(Ref ref) {
-  final asyncOnboardComplete = ref.watch(onboardingCompleteProvider);
+  // final asyncOnboardComplete = ref.watch(onboardingCompleteProvider);
 
   return GoRouter(
     initialLocation: RouteNames.splash,
@@ -20,20 +20,18 @@ GoRouter goRouter(Ref ref) {
     //   ref.watch(onboardingCompleteProvider.future).asStream(),
     // ),
     redirect: (context, state) {
-      if (asyncOnboardComplete.isLoading) return null;
+      // if (asyncOnboardComplete.isLoading) return null;
 
-      final onboardComplete = asyncOnboardComplete.value ?? false;
+      // final onboardComplete = asyncOnboardComplete.value ?? false;
       final isLoggedIn = false;
 
       if (state.uri.toString() == RouteNames.splash) return null;
 
-      if (!onboardComplete && state.uri.toString() != RouteNames.onboard) {
+      if (state.uri.toString() != RouteNames.onboard) {
         return RouteNames.onboard;
       }
 
-      if (onboardComplete &&
-          !isLoggedIn &&
-          state.uri.toString() != RouteNames.login) {
+      if (!isLoggedIn && state.uri.toString() != RouteNames.login) {
         return RouteNames.login;
       }
 
@@ -53,7 +51,7 @@ GoRouter goRouter(Ref ref) {
       GoRoute(
         path: RouteNames.login,
         name: RouteNames.login,
-        builder: (context, state) => const LoginPage(),
+        builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
         path: RouteNames.home,

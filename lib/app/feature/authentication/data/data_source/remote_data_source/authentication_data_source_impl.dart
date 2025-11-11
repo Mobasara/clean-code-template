@@ -3,7 +3,6 @@ import '../../../../../core/data/network/network_api_services.dart';
 import '../../../../../core/error/exceptions.dart';
 import '../../../../../core/error/failure_map.dart';
 import '../../../../../core/error/failures.dart';
-import '../../../../../core/utils/results.dart' as results;
 import '../../model/user_model.dart';
 import 'authentication_data_source.dart';
 
@@ -13,19 +12,23 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final NetworkApiServices apiService;
 
   @override
-  Future<results.Result<UserModel>> login(String email, String password) async {
+  Future<UserModel> login(String email, String password) async {
     try {
       final response = await apiService.postApi(
         url: AppUrls.login,
         data: {'email': email, 'password': password},
       );
 
-      return results.Success(UserModel.fromJson(response));
+      return UserModel.fromJson(response);
     } on AppException catch (e) {
-      final failure = FailureMapper.mapExceptionToFailure(e);
-      return results.Error(failure);
+      throw FailureMapper.mapExceptionToFailure(e);
     } catch (e) {
-      return const results.Error(UnexpectedFailure());
+      throw UnexpectedFailure();
     }
+  }
+
+  @override
+  Future<void> logout() async {
+    await Future.delayed(Duration(milliseconds: 500));
   }
 }

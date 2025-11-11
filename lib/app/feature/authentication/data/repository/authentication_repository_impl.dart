@@ -1,4 +1,8 @@
-import '../../../../core/utils/results.dart';
+import 'package:dartz/dartz.dart';
+
+import '../../../../core/error/exceptions.dart';
+import '../../../../core/error/failure_map.dart';
+import '../../../../core/error/failures.dart';
 import '../../domain/entity/user.dart';
 import '../../domain/repository/authentication_repository.dart';
 import '../data_source/local_data_source/auth_local_data_source.dart';
@@ -6,29 +10,60 @@ import '../data_source/remote_data_source/authentication_data_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({
-    required this.remoteDataSource,
-    required this.localDataSource,
+    required this.authRemoteDataSource,
+    required this.authLocalDataSource,
   });
 
-  final AuthRemoteDataSource remoteDataSource;
-  final AuthLocalDataSource localDataSource;
+  final AuthRemoteDataSource authRemoteDataSource;
+  final AuthLocalDataSource authLocalDataSource;
 
   @override
-  Future<Result<UserEntity>> login({
+  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
+    try {
+      final user = await authLocalDataSource.getCachedUser();
+      return Right(user);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isAuthenticated() async {
+    try {
+      final token = await authLocalDataSource.getCachedToken();
+      return Right(token.isNotEmpty);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserEntity>> login({
     required String email,
     required String password,
   }) async {
-    final remoteResult = await remoteDataSource.login(email, password);
+    try {
+      final userModel = await authRemoteDataSource.login(email, password);
 
-    return remoteResult.fold(
-      onSuccess: (userModel) async {
-        await localDataSource.cacheUser(userModel);
-        await localDataSource.cacheToken(userModel.id);
-        return Success(userModel.toEntity());
-      },
-      onError: (failure) {
-        return Error(failure);
-      },
-    );
+      await authLocalDataSource.cacheToken('mock_token_${userModel.id}');
+      await authLocalDataSource.cacheUser(userModel);
+
+      return Right(userModel.toEntity());
+    } on AppException catch (e) {
+      return Left(FailureMapper.mapExceptionToFailure(e));
+    } catch (e) {
+      return const Left(UnexpectedFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> logout() async {
+    try {
+      await authRemoteDataSource.logout();
+      await authLocalDataSource.clearCache();
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }
