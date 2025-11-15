@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../riverpod/splash_provider.dart';
 
+@RoutePage()
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 

@@ -1,15 +1,7 @@
-import 'package:clean_code_template/app/core/data/network/network_api_services.dart';
-import 'package:clean_code_template/app/feature/authentication/data/data_source/local_data_source/auth_local_data_source.dart';
-import 'package:clean_code_template/app/feature/authentication/presentation/riverpod/auth_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'app/core/data/local/local_data.dart';
-import 'app/feature/authentication/data/data_source/remote_data_source/authentication_data_source.dart';
-import 'app/feature/authentication/data/data_source/remote_data_source/authentication_data_source_impl.dart';
-import 'app/feature/authentication/data/repository/authentication_repository_impl.dart';
-import 'app/feature/authentication/domain/repository/authentication_repository.dart';
-import 'app/feature/authentication/domain/use_case/login_user.dart';
+
 
 final serviceLocator = GetIt.instance;
 
