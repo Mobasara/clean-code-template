@@ -15,7 +15,7 @@ class SplashScreen extends ConsumerWidget {
 
     ref.listen<bool>(splashProvider, (previous, next) {
       if (previous == true && next == false) {
-        context.pushReplacement(LoginPage());
+        context.pushReplacement(LoginScreen());
       }
     });
 

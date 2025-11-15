@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_notifier.dart';
+part of 'auth_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -12,7 +12,8 @@ part of 'auth_notifier.dart';
 @ProviderFor(Auth)
 const authProvider = AuthProvider._();
 
-final class AuthProvider extends $NotifierProvider<Auth, AuthState> {
+final class AuthProvider
+    extends $AsyncNotifierProvider<Auth, Either<Failure, UserEntity?>> {
   const AuthProvider._()
     : super(
         from: null,
@@ -30,30 +31,30 @@ final class AuthProvider extends $NotifierProvider<Auth, AuthState> {
   @$internal
   @override
   Auth create() => Auth();
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(AuthState value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<AuthState>(value),
-    );
-  }
 }
 
-String _$authHash() => r'421641142e425342f04b8bf0cf711d8bcbd19fb8';
+String _$authHash() => r'1f9e74cfb01081ec60dfcd956c6f634de206a6b0';
 
-abstract class _$Auth extends $Notifier<AuthState> {
-  AuthState build();
+abstract class _$Auth extends $AsyncNotifier<Either<Failure, UserEntity?>> {
+  FutureOr<Either<Failure, UserEntity?>> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AuthState, AuthState>;
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<Either<Failure, UserEntity?>>,
+              Either<Failure, UserEntity?>
+            >;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AuthState, AuthState>,
-              AuthState,
+              AnyNotifier<
+                AsyncValue<Either<Failure, UserEntity?>>,
+                Either<Failure, UserEntity?>
+              >,
+              AsyncValue<Either<Failure, UserEntity?>>,
               Object?,
               Object?
             >;

@@ -1,17 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../error/exceptions.dart';
 import '../../utils/constants.dart';
-
-final sharedPreferencesProvider = Provider<SharedPreferences>((ref) {
-  throw UnimplementedError();
-});
-
-final localDataProvider = Provider<LocalData>((ref) {
-  final prefs = ref.watch(sharedPreferencesProvider);
-  return LocalData(prefs);
-});
 
 class LocalData {
   final SharedPreferences _pref;
@@ -21,7 +11,7 @@ class LocalData {
   Future<void> _safeWrite(Future<void> Function() action) async {
     try {
       await action();
-    } catch (e, st) {
+    } catch (e) {
       // Optionally log stacktrace
       // print('Cache write failed: $e\n$st');
       throw CacheException(message: 'Failed to save data locally: $e');
@@ -32,7 +22,7 @@ class LocalData {
   T _safeRead<T>(T? Function() getter, T defaultValue) {
     try {
       return getter() ?? defaultValue;
-    } catch (e, st) {
+    } catch (e) {
       // print('Cache read failed: $e\n$st');
       throw CacheException(message: 'Failed to read data locally: $e');
     }

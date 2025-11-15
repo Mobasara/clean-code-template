@@ -3,42 +3,40 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app/core/data/local/local_data.dart';
 
 
-final serviceLocator = GetIt.instance;
-
-Future<void> initDependencies() async {
-  // Initialize SharedPreferences
+final sl = GetIt.instance;
+Future dI() async {
+  // Local Data Storage/ Shared Preferences
   final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
 
-  // core
-  serviceLocator.registerLazySingleton<LocalData>(
-    () => LocalData(sharedPreferences),
+  // Core
+  //-- Local Data
+  sl.registerLazySingleton<LocalData>(() => LocalData(sl()));
+  //-- Network API Service
+  final apiService = NetworkApiServices(sl());
+  sl.registerLazySingleton(() => apiService);
+
+  // Data sources
+  //-- Remote
+  sl.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSourceImpl(apiService: sl()),
+  );
+  //-- Local
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
   );
 
-  // auth
-  _initAuth();
-}
+  // Repository
+  sl.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(
+      authRemoteDataSource: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
 
-void _initAuth() {
-  serviceLocator
-    // Network API Service (needs LocalData)
-    ..registerFactory(() => NetworkApiServices(serviceLocator<LocalData>()))
-    
-    // Remote datasource
-    ..registerFactory<AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl(apiService: serviceLocator<NetworkApiServices>()),
-    )
-    
-    // Repository
-    ..registerFactory<AuthRepository>(
-      () => AuthRepositoryImpl(
-        remoteDataSource: serviceLocator<AuthRemoteDataSource>(),
-        localDataSource: serviceLocator<AuthLocalDataSource>(),
-      ),
-    )
+  // Use Cases
+  sl.registerSingleton(() => LoginUseCase(repository: sl()));
 
-    // Use case
-    ..registerFactory(() => LoginUser(serviceLocator<AuthRepository>()))
-
-    // Riverpod AuthNotifier
-    ..registerFactory(() => Auth());
+  // Riverpod Notifier
+  sl.registerFactory(() => Auth());
 }
