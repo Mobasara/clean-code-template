@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +7,7 @@ import '../riverpod/auth_provider.dart';
 
 part '../widget/login_form.dart';
 
+@RoutePage()
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 

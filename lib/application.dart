@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MyApp extends ConsumerWidget {
+import 'app/core/route/app_route.dart';
+
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _appRouter = AppRouter();
-
-    return MaterialApp.route(
+    final appRouter = AppRouter();
+    return MaterialApp.router(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      routerConfig: _appRouter.config();
+      routerConfig: appRouter.config(),
     );
   }
 }

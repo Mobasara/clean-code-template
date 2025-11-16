@@ -1,14 +1,14 @@
-import 'package:clean_code_template/app/core/routes/route_names.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 part '../widgets/on_board_page.dart';
 
 final currentPageProvider = StateProvider<int>((ref) => 0);
 
+@RoutePage()
 class OnBoardScreen extends ConsumerWidget {
   const OnBoardScreen({super.key});
 
@@ -98,7 +98,7 @@ class OnBoardScreen extends ConsumerWidget {
                         );
                       } else {
                         // Navigate to your next screen (e.g. Login)
-                        context.pushReplacement(RouteNames.login);
+                        // context.pushReplacement(RouteNames.login);
                       }
                     },
                     child: Text(

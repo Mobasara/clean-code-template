@@ -1,13 +1,19 @@
-part 'app_route.gr.dart';
+import 'package:auto_route/auto_route.dart';
+
+import '../data/data.dart';
+import 'app_route.gr.dart';
 
 @AutoRouterConfig()
-class AppRouter extends RootStackRouter{
-  @override
-  RouteType get defaultRouteType = RouteType.material(), // .cupertino
-  
+class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(SplashRoute.page),
+    AutoRoute(page: SplashRoute.page, initial: true),
+    AutoRoute(page: OnboardingRoute.page),
+    AutoRoute(page: LoginRoute.page),
+    AutoRoute(
+      page: HomeRoute.page,
+      guards: [AppGuard()],
+    ),
   ];
 
   @override

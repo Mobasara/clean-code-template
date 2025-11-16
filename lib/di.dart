@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'app/core/data/local/local_data.dart';
+import 'app/core/data/data.dart';
+import 'app/feature/authentication/data/data.dart';
+import 'app/feature/authentication/domain/domain.dart';
+import 'app/feature/authentication/presentation/presentation.dart';
 
 
 final sl = GetIt.instance;

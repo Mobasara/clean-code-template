@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:clean_code_template/app/core/utils/context.dart';
 import 'package:clean_code_template/app/feature/authentication/presentation/view/login_screen.dart';
 import 'package:flutter/material.dart';
