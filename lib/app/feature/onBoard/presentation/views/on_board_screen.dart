@@ -1,8 +1,14 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:clean_code_template/app/core/utils/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
+import 'package:get_it/get_it.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../../../core/data/local/local_data.dart';
+import '../../../../core/route/app_route.gr.dart';
 
 part '../widgets/on_board_page.dart';
 
@@ -97,8 +103,8 @@ class OnBoardScreen extends ConsumerWidget {
                           curve: Curves.easeInOut,
                         );
                       } else {
-                        // Navigate to your next screen (e.g. Login)
-                        // context.pushReplacement(RouteNames.login);
+                        context.localData.setOnboardingComplete(true);
+                        context.router.replace(const LoginRoute());
                       }
                     },
                     child: Text(

@@ -1,25 +1,30 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:clean_code_template/app/core/route/app_route.gr.dart';
+import 'package:get_it/get_it.dart';
 
 import '../data/data.dart';
 
 class AppGuard extends AutoRouteGuard {
+
   @override
-  void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final localData = getIt<LocalData>();
+  void onNavigation(NavigationResolver resolver, StackRouter router) async {
+    final localData = GetIt.I<LocalData>();
 
-    final hasCompletedOnboarding = localData.getOnboardingComplete();
-    final isLoggedIn = localData.getLoginStatus();
-
-    if (!hasCompletedOnboarding) {
-      resolver.redirectUntil(OnboardingRoute(), replace: true);
+    if (resolver.routeName == SplashRoute.name) {
+      resolver.next();
       return;
     }
 
-    if (!isLoggedIn) {
-      resolver.redirectUntil(LoginRoute(), replace: true);
+    if (!localData.getOnboardingComplete()) {
+      router.replace(const OnBoardRoute());
       return;
     }
 
-    resolver.next(true);
+    if (!localData.getLoginStatus()) {
+      router.replace(const LoginRoute());
+      return;
+    }
+
+    resolver.next();
   }
 }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import '../data/local/local_data.dart';
 
 extension BuildContextExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
@@ -27,6 +30,8 @@ extension BuildContextExtension on BuildContext {
           MaterialPageRoute(builder: (_) => page), (_) => false);
 
   void pop<T>([T? result]) => Navigator.of(this).pop(result);
+  // local data extension
+  LocalData get localData => GetIt.I<LocalData>();
 
   bool get isAndroid => theme.platform == TargetPlatform.android;
   bool get isIOS => theme.platform == TargetPlatform.iOS;
