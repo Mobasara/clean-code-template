@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/error/failures.dart';
-import '../../../../core/route/app_route.gr.dart';
+import '../../../../route/app_route.gr.dart';
 import '../riverpod/auth_provider.dart';
 
 part '../widget/login_form.dart';

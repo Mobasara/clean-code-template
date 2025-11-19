@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/data/local/local_data.dart';
-import '../../../../core/route/app_route.gr.dart';
+import '../../../../route/app_route.gr.dart';
 
 part '../widgets/on_board_page.dart';
 

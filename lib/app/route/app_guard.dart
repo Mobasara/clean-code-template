@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:clean_code_template/app/core/route/app_route.gr.dart';
+import 'package:clean_code_template/app/route/app_route.gr.dart';
 import 'package:get_it/get_it.dart';
 
-import '../data/data.dart';
+import '../core/data/data.dart';
 
 class AppGuard extends AutoRouteGuard {
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'app/core/route/app_route.dart';
+import 'app/route/app_route.dart';
+import 'app/theme/app_theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,11 +10,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Clean Code Template',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
       routerConfig: appRouter.config(),
     );
   }
