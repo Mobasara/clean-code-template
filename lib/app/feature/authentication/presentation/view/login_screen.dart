@@ -1,10 +1,8 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:clean_code_template/app/core/utils/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/error/failures.dart';
 import '../../../../route/app_route.gr.dart';
 import '../riverpod/auth_provider.dart';
 
@@ -31,24 +29,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-
-  // Future<void> _login() async {
-  //   if (!_formKey.currentState!.validate()) return;
-  //
-  //   setState(() => _isLoading = true);
-  //
-  //   // Simulate API call
-  //   await Future.delayed(const Duration(seconds: 2));
-  //
-  //   // Success → Save login status + go to Home
-  //   await GetIt.I<LocalData>().setLoginStatus(true);
-  //
-  //   if (mounted) {
-  //     context.router.replace(const HomeRoute());
-  //   }
-  //
-  //   setState(() => _isLoading = false);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -126,8 +106,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty)
-                      return 'Enter your email';
+                    if (value == null || value.isEmpty) {
+                      return "Enter your email";
+                    }
                     if (!value.contains('@')) return 'Invalid email';
                     return null;
                   },
@@ -155,8 +136,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   validator: (value) {
-                    if (value == null || value.isEmpty)
+                    if (value == null || value.isEmpty) {
                       return 'Enter your password';
+                    }
                     if (value.length < 6) return 'Password too short';
                     return null;
                   },

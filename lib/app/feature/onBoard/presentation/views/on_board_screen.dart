@@ -1,13 +1,10 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:clean_code_template/app/core/utils/context.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:get_it/get_it.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../../core/data/local/local_data.dart';
 import '../../../../route/app_route.gr.dart';
 
 part '../widgets/on_board_page.dart';
@@ -15,12 +12,24 @@ part '../widgets/on_board_page.dart';
 final currentPageProvider = StateProvider<int>((ref) => 0);
 
 @RoutePage()
-class OnBoardScreen extends ConsumerWidget {
+class OnBoardScreen extends ConsumerStatefulWidget {
   const OnBoardScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final pageController = PageController();
+  ConsumerState createState() => _OnBoardScreenState();
+}
+
+class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
+    final _pageController = PageController();
+
+    @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context ) {
     final currentPage = ref.watch(currentPageProvider);
 
     final pages = [
@@ -53,7 +62,7 @@ class OnBoardScreen extends ConsumerWidget {
           alignment: Alignment.bottomCenter,
           children: [
             PageView.builder(
-              controller: pageController,
+              controller: _pageController,
               itemCount: pages.length,
               onPageChanged: (index) {
                 ref.read(currentPageProvider.notifier).state = index;
@@ -71,7 +80,7 @@ class OnBoardScreen extends ConsumerWidget {
                   if (currentPage != pages.length - 1)
                     TextButton(
                       onPressed: () {
-                        pageController.jumpToPage(pages.length - 1);
+                        _pageController.jumpToPage(pages.length - 1);
                       },
                       child: const Text(
                         'Skip',
@@ -83,7 +92,7 @@ class OnBoardScreen extends ConsumerWidget {
 
                   // Page Indicator
                   SmoothPageIndicator(
-                    controller: pageController,
+                    controller: _pageController,
                     count: pages.length,
                     effect: const ExpandingDotsEffect(
                       activeDotColor: Colors.blueAccent,
@@ -98,7 +107,7 @@ class OnBoardScreen extends ConsumerWidget {
                   TextButton(
                     onPressed: () {
                       if (currentPage < pages.length - 1) {
-                        pageController.nextPage(
+                        _pageController.nextPage(
                           duration: const Duration(milliseconds: 400),
                           curve: Curves.easeInOut,
                         );

@@ -12,8 +12,6 @@ class LocalData {
     try {
       await action();
     } catch (e) {
-      // Optionally log stacktrace
-      // print('Cache write failed: $e\n$st');
       throw CacheException(message: 'Failed to save data locally: $e');
     }
   }

@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../../di.dart';
 import 'app_guard.dart';
 import 'app_route.gr.dart';
 
