@@ -14,7 +14,9 @@ class SignUpUseCase implements UseCase<SignUpEntity, SignUpParams> {
   Future<Either<Failure, SignUpEntity>> call(params) async {
     return await repository.signUp(
       email: params.email,
-      password: params.password, fullName: params.fullName, phoneNumber: params.phoneNumber,
+      password: params.password,
+      fullName: params.fullName,
+      phoneNumber: params.phoneNumber,
     );
   }
 }

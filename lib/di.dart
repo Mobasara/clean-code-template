@@ -29,7 +29,6 @@ Future dI() async {
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       authRemoteDataSource: sl(),
-
     ),
   );
 

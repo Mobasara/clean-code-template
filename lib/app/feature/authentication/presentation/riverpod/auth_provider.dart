@@ -9,11 +9,11 @@ part 'auth_provider.g.dart';
 
 @riverpod
 class Auth extends _$Auth {
-  void build()  {
+  Future<void> build() async {
     return;
   }
 
-  /// 🔹 Login
+  /// 🔹 Sign Up Request
   Future<void> signUpReq({
     required String email,
     required String password,
@@ -30,10 +30,7 @@ class Auth extends _$Auth {
 
     final repo = sl<AuthRepository>();
     final result = await repo.signUp(
-      email: email,
-      password: password,
-      fullName: fullName,
-      phoneNumber: phoneNumber,
+      fromData: formData,
     );
 
     state = AsyncData(result);

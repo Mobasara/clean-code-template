@@ -1,37 +1,17 @@
 import '../../domain/entity/sign_up_entity.dart';
 
 class SignUpModel extends SignUpEntity {
-  const SignUpModel({
-    required super.email,
-    required super.fullName,
-    required super.password,
-    required super.phoneNumber,
-  });
+  const SignUpModel({required super.message});
 
   factory SignUpModel.fromJson(Map<String, dynamic> json) {
-    return SignUpModel(
-      email: json['email'],
-      fullName: json['fullName'],
-      password: json['password'],
-      phoneNumber: json['phoneNumber'],
-    );
+    return SignUpModel(message: json['message']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'email': email,
-      'fullName': fullName,
-      'password': password,
-      'phoneNumber': phoneNumber,
-    };
+    return {'message': message};
   }
 
   SignUpEntity toEntity() {
-    return SignUpEntity(
-      email: email,
-      fullName: fullName,
-      password: password,
-      phoneNumber: phoneNumber,
-    );
+    return SignUpEntity(message: message);
   }
 }

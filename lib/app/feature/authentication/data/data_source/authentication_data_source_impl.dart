@@ -20,7 +20,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }) async {
     try {
       final response = await apiService.postApi(
-        url: AppUrls.signin,
+        url: AppUrls.signup,
         data: {
           'email': email,
           'fullName': fullName,
@@ -29,7 +29,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         },
       );
 
-      return SignUpModel.fromJson(response);
+      final statusCode = response['status'] as int;
+      if (statusCode == 202) {
+        return SignUpModel.fromJson(response);
+      } else {
+        throw AppException(
+          message: response['message'] ?? 'OTP send Failed',
+          code: statusCode.toString(),
+        );
+      }
     } on AppException catch (e) {
       throw FailureMapper.mapExceptionToFailure(e);
     } catch (e) {
