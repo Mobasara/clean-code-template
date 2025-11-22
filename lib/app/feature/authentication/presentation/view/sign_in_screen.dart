@@ -6,21 +6,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../route/app_route.gr.dart';
 import '../riverpod/auth_provider.dart';
 
-part '../widget/login_form.dart';
+part '../widget/sign_in_form.dart';
 
 @RoutePage()
-class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+class SignInScreen extends ConsumerStatefulWidget {
+  const SignInScreen({super.key});
 
   @override
-  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _obscurePassword = true;
 
   @override
@@ -33,7 +33,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -190,7 +189,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const Text("Don't have an account? "),
                     TextButton(
                       onPressed: () {
-                        // context.router.push(const SignUpRoute());
+                        context.router.replace(const SignUpRoute());
                       },
                       child: const Text(
                         'Sign Up',

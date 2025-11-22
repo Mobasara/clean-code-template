@@ -10,14 +10,14 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:clean_code_template/app/feature/authentication/presentation/view/login_screen.dart'
-    as _i2;
+import 'package:clean_code_template/app/feature/authentication/presentation/view/sign_in_screen.dart'
+    as _i3;
 import 'package:clean_code_template/app/feature/authentication/presentation/view/sign_up_screen.dart'
     as _i4;
 import 'package:clean_code_template/app/feature/home/presentation/view/home_screen.dart'
     as _i1;
 import 'package:clean_code_template/app/feature/onBoard/presentation/views/on_board_screen.dart'
-    as _i3;
+    as _i2;
 import 'package:clean_code_template/app/feature/splash/presentation/views/splash_screen.dart'
     as _i5;
 
@@ -38,23 +38,7 @@ class HomeRoute extends _i6.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.LoginScreen]
-class LoginRoute extends _i6.PageRouteInfo<void> {
-  const LoginRoute({List<_i6.PageRouteInfo>? children})
-    : super(LoginRoute.name, initialChildren: children);
-
-  static const String name = 'LoginRoute';
-
-  static _i6.PageInfo page = _i6.PageInfo(
-    name,
-    builder: (data) {
-      return const _i2.LoginScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [_i3.OnBoardScreen]
+/// [_i2.OnBoardScreen]
 class OnBoardRoute extends _i6.PageRouteInfo<void> {
   const OnBoardRoute({List<_i6.PageRouteInfo>? children})
     : super(OnBoardRoute.name, initialChildren: children);
@@ -64,7 +48,23 @@ class OnBoardRoute extends _i6.PageRouteInfo<void> {
   static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
-      return const _i3.OnBoardScreen();
+      return const _i2.OnBoardScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i3.SignInScreen]
+class SignInRoute extends _i6.PageRouteInfo<void> {
+  const SignInRoute({List<_i6.PageRouteInfo>? children})
+    : super(SignInRoute.name, initialChildren: children);
+
+  static const String name = 'SignInRoute';
+
+  static _i6.PageInfo page = _i6.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.SignInScreen();
     },
   );
 }

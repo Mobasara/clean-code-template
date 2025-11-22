@@ -1,29 +1,40 @@
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../di.dart';
-import '../../../../core/error/failures.dart';
-import '../../domain/entity/user.dart';
 import '../../domain/repository/authentication_repository.dart';
 
 part 'auth_provider.g.dart';
 
 @riverpod
 class Auth extends _$Auth {
-  @override
-  FutureOr<Either<Failure, UserEntity?>> build() async {
-    // Load current user when provider starts
-    final repo = sl<AuthRepository>();
-    final result = await repo.getCurrentUser();
-    return result;
+  void build()  {
+    return;
   }
 
   /// 🔹 Login
-  Future<void> login(String email, String password) async {
+  Future<void> signUpReq({
+    required String email,
+    required String password,
+    required String fullName,
+    required String phoneNumber,
+  }) async {
     state = const AsyncLoading();
+    FormData formData = FormData.fromMap({
+      "email": email,
+      "password": password,
+      "fullName": fullName,
+      "phoneNumber": phoneNumber,
+    });
 
     final repo = sl<AuthRepository>();
-    final result = await repo.login(email: email, password: password);
+    final result = await repo.signUp(
+      email: email,
+      password: password,
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+    );
 
     state = AsyncData(result);
   }

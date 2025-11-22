@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app/core/data/data.dart';
-import 'app/route/app_guard.dart';
 import 'app/feature/authentication/data/data.dart';
 import 'app/feature/authentication/domain/domain.dart';
 import 'app/feature/authentication/presentation/presentation.dart';
@@ -25,21 +24,17 @@ Future dI() async {
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(apiService: sl()),
   );
-  //-- Local
-  sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
-  );
 
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       authRemoteDataSource: sl(),
-      authLocalDataSource: sl(),
+
     ),
   );
 
   // Use Cases
-  sl.registerSingleton(() => LoginUseCase(repository: sl()));
+  sl.registerSingleton(() => SignUpUseCase(repository: sl()));
 
   // Riverpod Notifier
   sl.registerFactory(() => Auth());

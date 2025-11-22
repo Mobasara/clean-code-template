@@ -1,7 +1,7 @@
-part of '../view/login_screen.dart';
+part of '../view/sign_in_screen.dart';
 
-class _LoginForm extends ConsumerWidget {
-  const _LoginForm({required this.emailCtrl, required this.passCtrl});
+class _SignInForm extends ConsumerWidget {
+  const _SignInForm({required this.emailCtrl, required this.passCtrl});
 
   final TextEditingController emailCtrl;
   final TextEditingController passCtrl;
@@ -24,9 +24,7 @@ class _LoginForm extends ConsumerWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () async {
-              await ref
-                  .read(authProvider.notifier)
-                  .login(emailCtrl.text.trim(), passCtrl.text.trim());
+
             },
             child: const Text('Login'),
           ),

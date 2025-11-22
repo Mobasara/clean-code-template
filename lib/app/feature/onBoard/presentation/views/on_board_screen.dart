@@ -35,7 +35,7 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
     final pages = [
       _OnboardPage(
         image:
-            'https://www.kindpng.com/picc/m/206-2065130_hey-there-calligraphy-hd-png-download.png',
+            'https://img.freepik.com/free-vector/hand-drawn-flat-design-people-waving-illustration_23-2149195759.jpg?semt=ais_hybrid&w=740&q=80',
         title: 'Discover Amazing Places',
         subtitle:
             'Find unique travel destinations and explore beautiful places around the world.',
@@ -113,7 +113,7 @@ class _OnBoardScreenState extends ConsumerState<OnBoardScreen> {
                         );
                       } else {
                         context.localData.setOnboardingComplete(true);
-                        context.router.replace(const LoginRoute());
+                        context.router.replace(const SignUpRoute());
                       }
                     },
                     child: Text(

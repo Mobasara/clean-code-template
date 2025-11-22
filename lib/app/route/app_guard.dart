@@ -21,7 +21,7 @@ class AppGuard extends AutoRouteGuard {
     }
 
     if (!localData.getLoginStatus()) {
-      router.replace(const LoginRoute());
+      router.replace(const SignUpRoute());
       return;
     }
 

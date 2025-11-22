@@ -51,7 +51,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -173,7 +172,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       const Text('Already have an account? '),
                       TextButton(
                         onPressed: () {
-                          context.router.replace(const LoginRoute());
+                          context.router.replace(const SignInRoute());
                         },
                         child: const Text(
                           'Log In',

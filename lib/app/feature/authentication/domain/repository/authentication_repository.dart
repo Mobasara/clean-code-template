@@ -1,17 +1,17 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failures.dart';
-import '../entity/user.dart';
+import '../entity/sign_up_entity.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, SignUpEntity>> signUp({
     required String email,
+    required String fullName,
     required String password,
+    required String phoneNumber,
   });
 
   Future<Either<Failure, void>> logout();
-
-  Future<Either<Failure, UserEntity?>> getCurrentUser();
 
   Future<Either<Failure, bool>> isAuthenticated();
 }

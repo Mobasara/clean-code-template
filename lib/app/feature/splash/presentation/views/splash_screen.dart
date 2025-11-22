@@ -1,15 +1,8 @@
-import 'package:auto_route/annotations.dart';
-import 'package:clean_code_template/app/core/utils/context.dart';
-import 'package:clean_code_template/app/feature/authentication/presentation/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../../route/app_route.gr.dart';
-import '../riverpod/splash_provider.dart';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 @RoutePage()
 class SplashScreen extends ConsumerStatefulWidget {

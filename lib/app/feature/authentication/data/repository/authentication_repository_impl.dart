@@ -1,54 +1,35 @@
 import 'package:dartz/dartz.dart';
-
+import 'package:get_it/get_it.dart';
+import '../../../../../di.dart';
+import '../../../../core/data/local/local_data.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failure_map.dart';
 import '../../../../core/error/failures.dart';
-import '../../domain/entity/user.dart';
+import '../../domain/entity/sign_up_entity.dart';
 import '../../domain/repository/authentication_repository.dart';
-import '../data_source/local_data_source/auth_local_data_source.dart';
-import '../data_source/remote_data_source/authentication_data_source.dart';
+import '../data_source/authentication_data_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl({
-    required this.authRemoteDataSource,
-    required this.authLocalDataSource,
-  });
+  AuthRepositoryImpl({required this.authRemoteDataSource});
 
   final AuthRemoteDataSource authRemoteDataSource;
-  final AuthLocalDataSource authLocalDataSource;
 
   @override
-  Future<Either<Failure, UserEntity?>> getCurrentUser() async {
-    try {
-      final user = await authLocalDataSource.getCachedUser();
-      return Right(user);
-    } catch (e) {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, bool>> isAuthenticated() async {
-    try {
-      final token = await authLocalDataSource.getCachedToken();
-      return Right(token.isNotEmpty);
-    } catch (e) {
-      return Left(CacheFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, UserEntity>> login({
+  Future<Either<Failure, SignUpEntity>> signUp({
     required String email,
+    required String fullName,
     required String password,
+    required String phoneNumber,
   }) async {
     try {
-      final userModel = await authRemoteDataSource.login(email, password);
+      final signUpReq = await authRemoteDataSource.signUp(
+        email: email,
+        fullName: fullName,
+        password: password,
+        phoneNumber: phoneNumber,
+      );
 
-      await authLocalDataSource.cacheToken('mock_token_${userModel.id}');
-      await authLocalDataSource.cacheUser(userModel);
-
-      return Right(userModel.toEntity());
+      return Right(signUpReq.toEntity());
     } on AppException catch (e) {
       return Left(FailureMapper.mapExceptionToFailure(e));
     } catch (e) {
@@ -57,10 +38,19 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Either<Failure, bool>> isAuthenticated() async {
+    try {
+      final token = GetIt.I<LocalData>().getAccessToken();
+      return Right(token.isNotEmpty);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> logout() async {
     try {
       await authRemoteDataSource.logout();
-      await authLocalDataSource.clearCache();
       return Right(null);
     } catch (e) {
       return Left(ServerFailure());
