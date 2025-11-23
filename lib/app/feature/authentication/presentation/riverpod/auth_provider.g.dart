@@ -12,7 +12,8 @@ part of 'auth_provider.dart';
 @ProviderFor(Auth)
 const authProvider = AuthProvider._();
 
-final class AuthProvider extends $AsyncNotifierProvider<Auth, void> {
+final class AuthProvider
+    extends $AsyncNotifierProvider<Auth, Either<Failure, dynamic>> {
   const AuthProvider._()
     : super(
         from: null,
@@ -32,23 +33,31 @@ final class AuthProvider extends $AsyncNotifierProvider<Auth, void> {
   Auth create() => Auth();
 }
 
-String _$authHash() => r'4c071ec53059a6effda6ceb79aa9c96d9d07ba81';
+String _$authHash() => r'4127765bda0dbccb9e4d0a2b1c6e884e723a6986';
 
-abstract class _$Auth extends $AsyncNotifier<void> {
-  FutureOr<void> build();
+abstract class _$Auth extends $AsyncNotifier<Either<Failure, dynamic>> {
+  FutureOr<Either<Failure, dynamic>> build();
   @$mustCallSuper
   @override
   void runBuild() {
-    build();
-    final ref = this.ref as $Ref<AsyncValue<void>, void>;
+    final created = build();
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<Either<Failure, dynamic>>,
+              Either<Failure, dynamic>
+            >;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<void>, void>,
-              AsyncValue<void>,
+              AnyNotifier<
+                AsyncValue<Either<Failure, dynamic>>,
+                Either<Failure, dynamic>
+              >,
+              AsyncValue<Either<Failure, dynamic>>,
               Object?,
               Object?
             >;
-    element.handleValue(ref, null);
+    element.handleValue(ref, created);
   }
 }

@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../core/data/app_urls.dart';
 import '../../../../core/data/network/network_api_services.dart';
 import '../../../../core/error/exceptions.dart';
@@ -19,14 +21,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String phoneNumber,
   }) async {
     try {
+      FormData formData = FormData.fromMap({
+        "email": email,
+        "password": password,
+        "fullName": fullName,
+        "phoneNumber": phoneNumber,
+      });
+
       final response = await apiService.postApi(
         url: AppUrls.signup,
-        data: {
-          'email': email,
-          'fullName': fullName,
-          'password': password,
-          'phoneNumber': phoneNumber,
-        },
+        data: formData,
       );
 
       final statusCode = response['status'] as int;

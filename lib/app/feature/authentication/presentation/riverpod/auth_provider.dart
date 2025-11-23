@@ -1,16 +1,17 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../../../di.dart';
-import '../../domain/repository/authentication_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../../domain/use_case/sign_up_use_case.dart';
 
 part 'auth_provider.g.dart';
 
 @riverpod
 class Auth extends _$Auth {
-  Future<void> build() async {
-    return;
+  @override
+  Future<Either<Failure, dynamic>> build() async {
+    return const Right(null);
   }
 
   /// 🔹 Sign Up Request
@@ -21,38 +22,17 @@ class Auth extends _$Auth {
     required String phoneNumber,
   }) async {
     state = const AsyncLoading();
-    FormData formData = FormData.fromMap({
-      "email": email,
-      "password": password,
-      "fullName": fullName,
-      "phoneNumber": phoneNumber,
-    });
 
-    final repo = sl<AuthRepository>();
-    final result = await repo.signUp(
-      fromData: formData,
+    final signUp = sl<SignUpUseCase>();
+    final result = await signUp(
+      SignUpParams(
+        email: email,
+        password: password,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+      ),
     );
 
     state = AsyncData(result);
-  }
-
-  /// 🔹 Logout and clear cache
-  Future<void> logout() async {
-    state = const AsyncLoading();
-
-    final repo = sl<AuthRepository>();
-    final result = await repo.logout();
-
-    result.fold(
-      (failure) => state = AsyncData(Left(failure)),
-      (_) => state = const AsyncData(Right(null)),
-    );
-  }
-
-  /// 🔹 Check if user is authenticated
-  Future<bool> isAuthenticated() async {
-    final repo = sl<AuthRepository>();
-    final result = await repo.isAuthenticated();
-    return result.getOrElse(() => false);
   }
 }

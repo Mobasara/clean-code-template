@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:get_it/get_it.dart';
-import '../../../../../di.dart';
 import '../../../../core/data/local/local_data.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failure_map.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../route/app_route.gr.dart';
-import '../riverpod/auth_provider.dart';
 
 part '../widget/sign_in_form.dart';
 
